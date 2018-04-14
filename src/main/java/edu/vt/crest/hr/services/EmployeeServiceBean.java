@@ -3,10 +3,7 @@ package edu.vt.crest.hr.services;
 import edu.vt.crest.hr.entity.EmployeeEntity;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -30,8 +27,9 @@ public class EmployeeServiceBean implements EmployeeService {
    * {@inheritDoc}
    */
   @Override
-  public EmployeeEntity findById(Long id) {
-    return null;
+  public EmployeeEntity findById(Long id) throws NoResultException {
+    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e where e.id = :id";
+    return em.createQuery(strQuery, EmployeeEntity.class).setParameter("id", id).getSingleResult();
   }
 
   /**

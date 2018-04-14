@@ -1,8 +1,9 @@
 package edu.vt.crest.hr.services;
 
-import java.util.List;
-
 import edu.vt.crest.hr.entity.EmployeeEntity;
+
+import javax.persistence.NoResultException;
+import java.util.List;
 
 /**
  * An EmployeeService defines the contract for a class that will provide
@@ -21,7 +22,7 @@ public interface EmployeeService {
    * @param id of the EmployeeEntity to return
    * @return the matching EmployeeEntity
    */
-  EmployeeEntity findById(Long id);
+  EmployeeEntity findById(Long id) throws NoResultException;
 
   /**
    * TODO - Implement this method

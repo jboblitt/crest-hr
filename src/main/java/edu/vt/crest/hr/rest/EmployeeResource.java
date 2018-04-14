@@ -5,6 +5,7 @@ import edu.vt.crest.hr.services.EmployeeService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,7 +35,6 @@ public class EmployeeResource {
 	}
 
 	/**
-	 * TODO - Implement this method
 	 * @param id of the EmployeeEntity to return
 	 * @return a Response containing the matching EmployeeEntity
 	 */
@@ -42,11 +42,20 @@ public class EmployeeResource {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
-		return null;
+		try {
+			return Response.ok(employeeService.findById(id)).build();
+		} catch (NoResultException e) {
+			System.err.println("Could not find EmployeeEntity by id: [" + id + "]" + e);
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		catch (Exception e) {
+			// TODO: add more error handling based on request exception
+			System.err.println("Error occurred finding EmployeeEntity by id: [" + id + "]\n" + e);
+			return Response.status(500).build();
+		}
 	}
 
 	/**
-	 * TODO - Implement this method
 	 * @param startPosition the index of the first EmployeeEntity to return
 	 * @param maxResult the maximum number of EmployeeEntity(s) to return
 	 *                  beyond the startPosition
