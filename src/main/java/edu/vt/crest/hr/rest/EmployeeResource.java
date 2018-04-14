@@ -45,13 +45,8 @@ public class EmployeeResource {
 		try {
 			return Response.ok(employeeService.findById(id)).build();
 		} catch (NoResultException e) {
-			System.err.println("Could not find EmployeeEntity by id: [" + id + "]" + e);
-			return Response.status(Response.Status.NOT_FOUND).build();
-		}
-		catch (Exception e) {
-			// TODO: add more error handling based on request exception
 			System.err.println("Error occurred finding EmployeeEntity by id: [" + id + "]\n" + e);
-			return Response.status(500).build();
+			throw (e); // Returning default response for this exception type
 		}
 	}
 
