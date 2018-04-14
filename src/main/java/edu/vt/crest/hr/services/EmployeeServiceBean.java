@@ -29,8 +29,7 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public EmployeeEntity findById(Long id) throws NoResultException {
-    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e where e.id = :id";
-    return em.createQuery(strQuery, EmployeeEntity.class).setParameter("id", id).getSingleResult();
+    return em.find(EmployeeEntity.class, id);
   }
 
   /**

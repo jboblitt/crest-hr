@@ -50,11 +50,12 @@ public class EmployeeResource {
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") Long id) {
-		try {
-			return Response.ok(employeeService.findById(id)).build();
-		} catch (NoResultException e) {
-			System.err.println("Error occurred finding EmployeeEntity by id: [" + id + "]\n" + e);
-			throw (e); // Returning default response for this exception type
+		EmployeeEntity employee = employeeService.findById(id);
+		if (employee != null)
+			return Response.ok(employee).build();
+		else {
+			System.err.println("Error occurred finding EmployeeEntity by id: [" + id + "]");
+			throw (new NoResultException());
 		}
 	}
 
