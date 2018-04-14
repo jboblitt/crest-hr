@@ -73,7 +73,6 @@ public class EmployeeResource {
 	}
 
 	/**
-	 * TODO - Implement this method
 	 * @param id the id of the EmployeeEntity to update
 	 * @param employee the entity used to update
 	 * @return a Response containing the updated EmployeeEntity
@@ -83,6 +82,12 @@ public class EmployeeResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(@PathParam("id") Long id, EmployeeEntity employee) {
-		return null;
+		EmployeeEntity updatedEmployee = employeeService.update(id, employee);
+		if (updatedEmployee != null) {
+			return Response.ok(updatedEmployee).build();
+		}
+		else {
+			throw (new NoResultException("Error during update: could not find EmployeeEntity by id: [" + id + "]"));
+		}
 	}
 }

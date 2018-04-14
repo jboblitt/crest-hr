@@ -31,7 +31,6 @@ public interface EmployeeService {
   List<EmployeeEntity> listAll(Integer startPosition, Integer maxResult);
 
   /**
-   * TODO - Implement this method
    * @param id the id of the EmployeeEntity to update
    * @param employee the entity used to update
    * @return the updated EmployeeEntity

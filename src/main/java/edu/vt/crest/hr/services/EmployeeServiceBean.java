@@ -49,6 +49,13 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public EmployeeEntity update(Long id, EmployeeEntity employee) throws OptimisticLockException {
-    return null;
+    EmployeeEntity employeeToUpdate = em.find(EmployeeEntity.class, id);
+    if (employeeToUpdate != null) {
+      String firstName = employee.getFirstName();
+      if (firstName != null && !firstName.isEmpty()) employeeToUpdate.setFirstName(firstName);
+      String lastName = employee.getLastName();
+      if (lastName != null && !lastName.isEmpty()) employeeToUpdate.setLastName(lastName);
+    }
+    return employeeToUpdate; // null if could not find employee by id
   }
 }
