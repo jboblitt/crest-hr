@@ -1,21 +1,14 @@
 package edu.vt.crest.hr.rest;
 
-import java.util.List;
+import edu.vt.crest.hr.entity.EmployeeEntity;
+import edu.vt.crest.hr.services.EmployeeService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import edu.vt.crest.hr.entity.EmployeeEntity;
-import edu.vt.crest.hr.services.EmployeeService;
+import java.util.List;
 
 /**
  * Serves as a RESTful endpoint for manipulating EmployeeEntity(s)
@@ -63,8 +56,7 @@ public class EmployeeResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<EmployeeEntity> listAll(@QueryParam("start") Integer startPosition,
 			@QueryParam("max") Integer maxResult) {
-
-		return null;
+		return employeeService.listAll(startPosition, maxResult);
 	}
 
 	/**

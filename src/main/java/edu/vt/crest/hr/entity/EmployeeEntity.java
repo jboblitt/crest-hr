@@ -1,22 +1,16 @@
 package edu.vt.crest.hr.entity;
 
-import javax.persistence.Entity;
-import java.io.Serializable;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Defines an EmployeeEntity used to represent employee rows in the database.
  */
-@Entity(name = "Employee")
+@Entity(name = EmployeeEntity.ENTITY_NAME)
 @XmlRootElement
 public class EmployeeEntity implements Serializable {
+	public static final String ENTITY_NAME = "Employee";
 
 	private static final long serialVersionUID = 1L;
 

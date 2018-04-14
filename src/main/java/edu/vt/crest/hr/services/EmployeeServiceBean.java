@@ -1,15 +1,13 @@
 package edu.vt.crest.hr.services;
 
-import java.util.List;
+import edu.vt.crest.hr.entity.EmployeeEntity;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import edu.vt.crest.hr.entity.EmployeeEntity;
+import java.util.List;
 
 /**
  * Implements an EmployeeService
@@ -41,7 +39,11 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public List<EmployeeEntity> listAll(Integer startPosition, Integer maxResult) {
-    return null;
+    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e where e.id >= :id";
+    TypedQuery<EmployeeEntity> query = em.createQuery(strQuery, EmployeeEntity.class);
+    query.setParameter("id", Long.valueOf(startPosition));
+    query.setMaxResults(maxResult);
+    return query.getResultList();
   }
 
   /**
