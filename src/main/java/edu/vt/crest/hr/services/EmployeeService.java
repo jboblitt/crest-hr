@@ -11,21 +11,18 @@ import java.util.List;
  */
 public interface EmployeeService {
   /**
-   * TODO - Implement this method
    * @param employee the EmployeeEntity to create
    * @return the new EmployeeEntity
    */
   EmployeeEntity createEmployee(EmployeeEntity employee);
 
   /**
-   * TODO - Implement this method
    * @param id of the EmployeeEntity to return
    * @return the matching EmployeeEntity
    */
   EmployeeEntity findById(Long id) throws NoResultException;
 
   /**
-   * TODO - Implement this method
    * @param startPosition the index of the first EmployeeEntity to return
    * @param maxResult the maximum number of EmployeeEntity(s) to return
    *                  beyond the startPosition

@@ -20,7 +20,8 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public EmployeeEntity createEmployee(EmployeeEntity employee) {
-    return null;
+    em.persist(employee);
+    return employee;
   }
 
   /**

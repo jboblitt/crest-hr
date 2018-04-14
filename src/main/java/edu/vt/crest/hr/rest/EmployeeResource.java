@@ -5,6 +5,7 @@ import edu.vt.crest.hr.services.EmployeeService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityExistsException;
 import javax.persistence.NoResultException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,7 +24,6 @@ public class EmployeeResource {
 	EmployeeService employeeService;
 
 	/**
-	 * TODO - Implement this method
 	 * @param employee the EmployeeEntity to create
 	 * @return a Response containing the new EmployeeEntity
 	 */
@@ -31,7 +31,15 @@ public class EmployeeResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response create(EmployeeEntity employee) {
-		return null;
+		try {
+			return Response.ok(employeeService.createEmployee(employee)).build();
+		} catch (IllegalArgumentException e){
+			System.err.println("Argument was not an instance of EmployeeEntity class: " + employee + "\n" + e);
+			throw(e);
+		} catch (EntityExistsException e){
+			System.err.println("Database already contains entity: " + employee + "]\n" + e);
+			throw(e);
+		}
 	}
 
 	/**
