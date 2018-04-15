@@ -34,10 +34,10 @@ public class EmployeeResource {
 		try {
 			return Response.ok(employeeService.createEmployee(employee)).build();
 		} catch (IllegalArgumentException e){
-			System.err.println("Argument was not an instance of EmployeeEntity class: " + employee + "\n" + e);
+			System.err.println("Argument was not an instance of EmployeeEntity class: " + employee);
 			throw(e);
 		} catch (EntityExistsException e){
-			System.err.println("Database already contains entity: " + employee + "]\n" + e);
+			System.err.println("Database already contains entity: " + employee);
 			throw(e);
 		}
 	}
@@ -54,8 +54,7 @@ public class EmployeeResource {
 		if (employee != null)
 			return Response.ok(employee).build();
 		else {
-			System.err.println("Error occurred finding EmployeeEntity by id: [" + id + "]");
-			throw (new NoResultException());
+			throw (new NoResultException("Error occurred finding EmployeeEntity by id: [" + id + "]"));
 		}
 	}
 
