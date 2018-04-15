@@ -1,15 +1,10 @@
 package edu.vt.crest.hr.services;
 
-import java.util.List;
+import edu.vt.crest.hr.entity.EmployeeEntity;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.OptimisticLockException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-
-import edu.vt.crest.hr.entity.EmployeeEntity;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Implements an EmployeeService
@@ -25,15 +20,16 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public EmployeeEntity createEmployee(EmployeeEntity employee) {
-    return null;
+    em.persist(employee);
+    return employee;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public EmployeeEntity findById(Long id) {
-    return null;
+  public EmployeeEntity findById(Long id) throws NoResultException {
+    return em.find(EmployeeEntity.class, id);
   }
 
   /**
@@ -41,7 +37,11 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public List<EmployeeEntity> listAll(Integer startPosition, Integer maxResult) {
-    return null;
+    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e where e.id >= :id";
+    TypedQuery<EmployeeEntity> query = em.createQuery(strQuery, EmployeeEntity.class);
+    query.setParameter("id", startPosition != null ? Long.valueOf(startPosition) : 0l);
+    if (maxResult != null) query.setMaxResults(maxResult);
+    return query.getResultList();
   }
 
   /**
@@ -49,6 +49,13 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public EmployeeEntity update(Long id, EmployeeEntity employee) throws OptimisticLockException {
-    return null;
+    EmployeeEntity employeeToUpdate = em.find(EmployeeEntity.class, id);
+    if (employeeToUpdate != null) {
+      String firstName = employee.getFirstName();
+      if (firstName != null && !firstName.isEmpty()) employeeToUpdate.setFirstName(firstName);
+      String lastName = employee.getLastName();
+      if (lastName != null && !lastName.isEmpty()) employeeToUpdate.setLastName(lastName);
+    }
+    return employeeToUpdate; // null if could not find employee by id
   }
 }
