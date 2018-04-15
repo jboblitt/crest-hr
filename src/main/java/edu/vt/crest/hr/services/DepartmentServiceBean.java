@@ -1,15 +1,13 @@
 package edu.vt.crest.hr.services;
 
-import java.util.List;
+import edu.vt.crest.hr.entity.DepartmentEntity;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
-import edu.vt.crest.hr.entity.DepartmentEntity;
-import edu.vt.crest.hr.entity.EmployeeEntity;
+import java.util.List;
 
 /**
  * Implements a DepartmentService
@@ -25,7 +23,8 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public DepartmentEntity createDepartment(DepartmentEntity department) {
-    return null;
+    em.persist(department);
+    return department;
   }
 
   /**
@@ -33,7 +32,7 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public DepartmentEntity findById(Long id) {
-    return null;
+    return em.find(DepartmentEntity.class, id);
   }
 
   /**
@@ -41,7 +40,11 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public List<DepartmentEntity> listAll(Integer startPosition, Integer maxResult) {
-    return null;
+    String strQuery = "Select d from " + DepartmentEntity.ENTITY_NAME + " d where d.id >= :id";
+    TypedQuery<DepartmentEntity> query = em.createQuery(strQuery, DepartmentEntity.class);
+    query.setParameter("id", startPosition != null ? Long.valueOf(startPosition) : 0l);
+    if (maxResult != null) query.setMaxResults(maxResult);
+    return query.getResultList();
   }
 
   /**
@@ -49,7 +52,14 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public DepartmentEntity update(Long id, DepartmentEntity department) throws OptimisticLockException {
-    return null;
+    DepartmentEntity departmentToUpdate = em.find(DepartmentEntity.class, id);
+    if (departmentToUpdate != null) {
+      String newIdentifier = department.getIdentifier();
+      if (newIdentifier != null && !newIdentifier.isEmpty()) departmentToUpdate.setIdentifier(newIdentifier);
+      String newName = department.getName();
+      if (newName != null && !newName.isEmpty()) departmentToUpdate.setName(newName);
+    }
+    return departmentToUpdate; // null if could not find department by id
   }
 
 }

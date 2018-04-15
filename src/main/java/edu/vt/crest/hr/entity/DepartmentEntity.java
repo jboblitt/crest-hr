@@ -1,23 +1,16 @@
 package edu.vt.crest.hr.entity;
 
-import javax.persistence.Entity;
-import java.io.Serializable;
-import java.util.Set;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Defines a DepartmentEntity used to represent department rows in the database.
  */
-@Entity(name = "Department")
+@Entity(name = DepartmentEntity.ENTITY_NAME)
 @XmlRootElement
 public class DepartmentEntity implements Serializable {
+	public static final String ENTITY_NAME = "Department";
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,9 +29,9 @@ public class DepartmentEntity implements Serializable {
 	@Column
 	private String identifier;
 
-	@OneToMany
-	@JoinColumn(name = "department_id", referencedColumnName = "id")
-	private Set<EmployeeEntity> employees;
+//	@OneToMany
+//	@JoinColumn(name = "department_id", referencedColumnName = "id")
+//	private Set<EmployeeEntity> employees;
 
 	public Long getId() {
 		return this.id;
@@ -56,9 +49,9 @@ public class DepartmentEntity implements Serializable {
 		this.version = version;
 	}
 
-	public Set<EmployeeEntity> getEmployees() {
-		return this.employees;
-	}
+//	public Set<EmployeeEntity> getEmployees() {
+//		return this.employees;
+//	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -101,9 +94,9 @@ public class DepartmentEntity implements Serializable {
 		this.identifier = identifier;
 	}
 
-	public void addEmployee(EmployeeEntity employee) {
-		this.employees.add(employee);
-	}
+//	public void addEmployee(EmployeeEntity employee) {
+//		this.employees.add(employee);
+//	}
 
 	@Override
 	public String toString() {
