@@ -53,7 +53,7 @@ public class DepartmentServiceBean implements DepartmentService {
     TypedQuery<DepartmentEntity> query = em.createQuery(strQuery, DepartmentEntity.class);
     List<DepartmentEntity> departmentEntities = query.getResultList();
     if (startPosition == null) startPosition = 0;
-    if (maxResult == null) maxResult = Integer.MAX_VALUE;
+    if (maxResult == null) maxResult = departmentEntities.size();
     int endPosition = Math.min(startPosition + maxResult, departmentEntities.size());
     return departmentEntities.subList(startPosition, endPosition);
   }
