@@ -37,11 +37,13 @@ public class EmployeeServiceBean implements EmployeeService {
    */
   @Override
   public List<EmployeeEntity> listAll(Integer startPosition, Integer maxResult) {
-    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e where e.id >= :id";
+    String strQuery = "Select e from " + EmployeeEntity.ENTITY_NAME + " e order by e.id";
     TypedQuery<EmployeeEntity> query = em.createQuery(strQuery, EmployeeEntity.class);
-    query.setParameter("id", startPosition != null ? Long.valueOf(startPosition) : 0l);
-    if (maxResult != null) query.setMaxResults(maxResult);
-    return query.getResultList();
+    List<EmployeeEntity> employeeEntities = query.getResultList();
+    if (startPosition == null) startPosition = 0;
+    if (maxResult == null) maxResult = employeeEntities.size();
+    int endPosition = Math.min(startPosition + maxResult, employeeEntities.size());
+    return employeeEntities.subList(startPosition, endPosition);
   }
 
   /**
