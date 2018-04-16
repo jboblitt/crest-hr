@@ -32,7 +32,10 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public DepartmentEntity findById(Long id) {
-    return em.find(DepartmentEntity.class, id);
+    String strQuery = "Select d from " + DepartmentEntity.ENTITY_NAME + " d join fetch d.employees where d.id = :id";
+    TypedQuery<DepartmentEntity> query = em.createQuery(strQuery, DepartmentEntity.class);
+    query.setParameter("id", id);
+    return query.getSingleResult();
   }
 
   /**
@@ -40,11 +43,13 @@ public class DepartmentServiceBean implements DepartmentService {
    */
   @Override
   public List<DepartmentEntity> listAll(Integer startPosition, Integer maxResult) {
-    String strQuery = "Select d from " + DepartmentEntity.ENTITY_NAME + " d where d.id >= :id";
+    String strQuery = "Select distinct d from " + DepartmentEntity.ENTITY_NAME + " d left join fetch d.employees order by d.id";
     TypedQuery<DepartmentEntity> query = em.createQuery(strQuery, DepartmentEntity.class);
-    query.setParameter("id", startPosition != null ? Long.valueOf(startPosition) : 0l);
-    if (maxResult != null) query.setMaxResults(maxResult);
-    return query.getResultList();
+    List<DepartmentEntity> departmentEntities = query.getResultList();
+    if (startPosition == null) startPosition = 0;
+    if (maxResult == null) maxResult = Integer.MAX_VALUE;
+    int endPosition = Math.min(startPosition + maxResult, departmentEntities.size());
+    return departmentEntities.subList(startPosition, endPosition);
   }
 
   /**
