@@ -1,23 +1,17 @@
 package edu.vt.crest.hr.entity;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Defines a DepartmentEntity used to represent department rows in the database.
  */
-@Entity(name = "Department")
+@Entity(name = DepartmentEntity.ENTITY_NAME)
 @XmlRootElement
 public class DepartmentEntity implements Serializable {
+	public static final String ENTITY_NAME = "Department";
 
 	private static final long serialVersionUID = 1L;
 
@@ -103,6 +97,10 @@ public class DepartmentEntity implements Serializable {
 
 	public void addEmployee(EmployeeEntity employee) {
 		this.employees.add(employee);
+	}
+
+	public void setEmployees(Set<EmployeeEntity> employees) {
+		this.employees = employees;
 	}
 
 	@Override
