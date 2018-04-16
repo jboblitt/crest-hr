@@ -99,6 +99,10 @@ public class DepartmentEntity implements Serializable {
 		this.employees.add(employee);
 	}
 
+	public void setEmployees(Set<EmployeeEntity> employees) {
+		this.employees = employees;
+	}
+
 	@Override
 	public String toString() {
 		String result = getClass().getSimpleName() + " ";
